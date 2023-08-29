@@ -19,12 +19,18 @@ const use = () => {
   const spotElement = /** @type HTMLElement */(document.querySelector(`#spot`));
 
   // 0..100
-  const saturation = Math.round(slider*100);
+  const saturation = Math.round(slider * 100);
   const hsl = `hsl(var(--hue), ${saturation}%, 50%)`;
+  const position = Math.round(slider * 90);
   if (spotElement && !fullMode) {
     spotElement.style.backgroundColor = hsl;
+    spotElement.style.marginLeft = position + "%";
+    //spotElement.style.scale = saturation + "%";
+    console.log(position);
+    console.log(spotElement.style.marginLeft)
+    // spotElement.style.left = hsl;
   } else if (fullMode) {
-    document.body.style.backgroundColor = hsl; 
+    document.body.style.backgroundColor = hsl;
   }
 };
 
@@ -40,12 +46,12 @@ const setup = () => {
   });
 
   const buttonFullScreen = /** @type HTMLElement */(document.querySelector(`#btnFullScreen`));
-  
+
   buttonFullScreen.addEventListener(`click`, event => {
     document.documentElement.requestFullscreen();
   });
-  if (!fullMode) buttonFullScreen.style.display =`none`;
-  
+  if (!fullMode) buttonFullScreen.style.display = `none`;
+
   if (fullMode) {
     const spotElement = /** @type HTMLElement */(document.querySelector(`#spot`));
     if (spotElement) spotElement.style.display = `none`;
@@ -58,7 +64,7 @@ setup();
  * Save state
  * @param {Partial<state>} s 
  */
-function saveState (s) {
+function saveState(s) {
   state = Object.freeze({
     ...state,
     ...s
