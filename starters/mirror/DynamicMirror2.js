@@ -46,7 +46,7 @@ const use = () => {
     spotElement.style.marginBottom = position + "%";
     spotElement.style.scale = 5 + scale + "%";
     console.log(position);
-    console.log(spotElement.style.marginLeft)
+    console.log(state.lastSliderValue)
   } else if (fullMode) {
     document.body.style.backgroundColor = hsl;
   }
@@ -55,6 +55,14 @@ const use = () => {
 // Called continuously in a loop
 const update = () => {
   const { value, targetValue, speed } = state;
+
+  /*   let btnSlider = document.getElementById('slider');
+  
+    document.addEventListener(`keydown`, function () {
+      btnSlider.value = btnSlider.value + 100;
+  
+  
+    }) */
 
   // Interpolate from value -> targetValue.
   // Last speed of slider is scaled and used
@@ -95,7 +103,32 @@ const setup = () => {
       // Value we want to reach via interpolation
       targetValue: v / 1000
     });
+
   });
+
+
+  /*   let btnSlider = document.getElementById('slider');
+  
+    document.addEventListener(`keydown`, function () {
+      //btnSlider.value = 100;
+      
+  
+  
+      
+      var val = document.getElementById("slider").value
+  
+      document.getElementById("slider") 
+      btnSlider.value
+  
+  
+  
+      console.log(btnSlider.value)
+      let currentValue = state.lastSliderValue
+      saveState({
+        lastSliderValue: currentValue + 100
+      }) 
+  
+    }) */
 
   const buttonFullScreen = /** @type HTMLElement */(document.querySelector(`#btnFullScreen`));
   if (buttonFullScreen) {
