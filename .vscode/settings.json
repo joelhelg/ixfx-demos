@@ -41,5 +41,7 @@
     "pointermove",
     "stackblitz",
     "statemachine"
-  ]
+  ],
+  "fiveServer.highlight": false,
+  "fiveServer.navigate": true
 }
