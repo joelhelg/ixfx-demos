@@ -74,15 +74,15 @@ const use = () => {
   // Update right side
   const withElement = /** @type HTMLElement */(document.querySelector(`#with`));
   if (withElement) {
-    //withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled);
+    withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled);
     //withElement.style.marginBottom = isComplete ? "0px" : (scaled * 650) + "px";
-    withElement.style.scale = isComplete ? "100%" : (100 - (scaled * 100)) + "1000%";
-    if (withElement.style.scale === "10") {
+    withElement.style.scale = isComplete ? "30%" : (30 + (scaled * 120)) + "%";
+    /* if (withElement.style.scale === "10") {
       console.log("HEEEEEY")
       withElement.style.backgroundColor = "rgb(255, 170, 41)";
     } else {
       withElement.style.backgroundColor = "rgb(43, 43, 43)"
-    }
+    } */
     console.log(withElement.style.scale)
     const stageElement = document.querySelector(`#envStage`);
     if (stageElement) stageElement.textContent = isComplete ? `` : `${stage} ${percentage(raw)}`;
