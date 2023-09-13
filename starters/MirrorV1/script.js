@@ -74,7 +74,8 @@ const use = () => {
   // Update right side
   const withElement = /** @type HTMLElement */(document.querySelector(`#with`));
   if (withElement) {
-    withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled);
+    withElement.style.backgroundColor = isComplete ? hsl(1) : hsl(1 - scaled);
+    console.log(scaled)
     withElement.style.marginBottom = isComplete ? "0px" : (scaled * 650) + "px";
     withElement.style.scale = isComplete ? "30%" : (30 + (scaled * 70)) + "%";
     const stageElement = document.querySelector(`#envStage`);
