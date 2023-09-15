@@ -1,25 +1,6 @@
 import * as Flow from '../../ixfx/flow.js';
 import { adsr, defaultAdsrOpts as defaultAdsrOptions } from '../../ixfx/modulation.js';
 
-
-
-let multiplierX = 1
-
-document.addEventListener(`keydown`, (e) => {
-  if (e.repeat) return;
-  multiplierX = (Math.round(Math.random()) * 2 - 1) * (Math.random()) * 1200
-})
-
-
-let multiplierY = 1
-
-document.addEventListener(`keydown`, (e) => {
-  if (e.repeat) return;
-  multiplierY = (Math.round(Math.random()) * 2 - 1) * (Math.random()) * 800
-})
-
-
-
 const settings = Object.freeze({
   // Set up envelope
   env: adsr({
@@ -31,7 +12,7 @@ const settings = Object.freeze({
        peakLevel: 0.42, */
     releaseDuration: 2000,
     releaseBend: -1,
-    sustainLevel: 1,
+    sustainLevel: 20,
     retrigger: false /* env continues from where it is */
   }),
   run: Flow.continuously(update)
@@ -46,9 +27,7 @@ let state = Object.freeze({
   /** @type {number} */
   raw: 0,
   /** @type {boolean} */
-  triggered: false,
-
-
+  triggered: false
 });
 
 // Update state - this is called repeatedly via settings.run
@@ -60,7 +39,7 @@ function update() {
   saveState({
     scaled,
     stage,
-    raw,
+    raw
   });
 
   // Trigger a visual refresh
@@ -81,7 +60,7 @@ const use = () => {
   const hsl = (v) => `hsl(360, ${v * 100}%, 60%)`; // Produces a hsl(60, sat%, lightness%) string
 
   // Print values from envelope
-  //console.log(`scaled: ${scaled.toPrecision(2)}\traw: ${raw.toPrecision(2)}\tstage: ${stage}`);
+  console.log(`scaled: ${scaled.toPrecision(2)}\traw: ${raw.toPrecision(2)}\tstage: ${stage}`);
 
   // Update left side
   const withoutElement = /** @type HTMLElement */(document.querySelector(`#without`));
@@ -91,30 +70,20 @@ const use = () => {
     if (trigElement) trigElement.textContent = triggered ?
       `triggered` : ``;
   }
-  //console.log("hi " + multiplierX)
-
-  //sconsole.log(multiGenX())
-
-  /*   let multiX = multiGenX()
-    let multiY = multiGenY()
-  
-    console.log("X: " + multiX + " Y: " + multiY) */
 
   // Update right side
   const withElement = /** @type HTMLElement */(document.querySelector(`#with`));
   if (withElement) {
-    withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled);
-    withElement.style.marginBottom = isComplete ? "0px" : (scaled * multiplierY) + "px";
-    withElement.style.marginLeft = isComplete ? "0px" : (scaled * multiplierX) + "px";
+    withElement.style.backgroundColor = isComplete ? hsl(1) : hsl(1 - scaled / 30);
+    //withElement.style.marginBottom = isComplete ? "0px" : (scaled * 650) + "px";
     withElement.style.scale = isComplete ? "30%" : (30 + (scaled * 120)) + "%";
-
     /* if (withElement.style.scale === "10") {
       console.log("HEEEEEY")
       withElement.style.backgroundColor = "rgb(255, 170, 41)";
     } else {
       withElement.style.backgroundColor = "rgb(43, 43, 43)"
     } */
-    //console.log(withElement.style.scale)
+    console.log(withElement.style.scale)
     const stageElement = document.querySelector(`#envStage`);
     if (stageElement) stageElement.textContent = isComplete ? `` : `${stage} ${percentage(raw)}`;
   }

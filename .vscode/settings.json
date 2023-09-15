@@ -43,5 +43,5 @@
     "statemachine"
   ],
   "fiveServer.highlight": false,
-  "fiveServer.navigate": true
+  "fiveServer.navigate": false
 }

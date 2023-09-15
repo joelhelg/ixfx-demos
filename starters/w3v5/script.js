@@ -15,7 +15,7 @@ let multiplierY = 1
 
 document.addEventListener(`keydown`, (e) => {
   if (e.repeat) return;
-  multiplierY = (Math.round(Math.random()) * 2 - 1) * (Math.random()) * 800
+  multiplierY = Math.random() * 100
 })
 
 
@@ -78,7 +78,7 @@ const use = () => {
   // Grab relevant fields from settings & state
   const { scaled, stage, raw, triggered } = state;
   const isComplete = Number.isNaN(scaled); // Are we done?
-  const hsl = (v) => `hsl(360, ${v * 100}%, 60%)`; // Produces a hsl(60, sat%, lightness%) string
+  const hsl = (v) => `hsl(${v * 100}, 100%, 60%)`; // Produces a hsl(60, sat%, lightness%) string
 
   // Print values from envelope
   //console.log(`scaled: ${scaled.toPrecision(2)}\traw: ${raw.toPrecision(2)}\tstage: ${stage}`);
@@ -103,8 +103,8 @@ const use = () => {
   // Update right side
   const withElement = /** @type HTMLElement */(document.querySelector(`#with`));
   if (withElement) {
-    withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled);
-    withElement.style.marginBottom = isComplete ? "0px" : (scaled * multiplierY) + "px";
+    withElement.style.backgroundColor = isComplete ? hsl(0) : hsl(scaled * (multiplierY / 10));
+    withElement.style.marginBottom = isComplete ? "0px" : (scaled) + "px";
     withElement.style.marginLeft = isComplete ? "0px" : (scaled * multiplierX) + "px";
     withElement.style.scale = isComplete ? "30%" : (30 + (scaled * 120)) + "%";
 
