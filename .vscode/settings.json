@@ -42,6 +42,7 @@
     "stackblitz",
     "statemachine"
   ],
+<<<<<<< HEAD
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
   "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
   "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
@@ -54,4 +55,8 @@
   "typescript.format.insertSpaceAfterTypeAssertion": true,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
   "typescript.format.indentSwitchCase": true
+=======
+  "fiveServer.highlight": false,
+  "fiveServer.navigate": false
+>>>>>>> c046fb1899e670cb3c0aa889f0152c7eb4da3771
 }
