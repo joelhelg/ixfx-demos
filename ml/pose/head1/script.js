@@ -57,7 +57,14 @@ const update = () => {
   saveState({ heads });
 };
 
-
+let leftEar = {
+  x: 0,
+  y: 0
+}
+let rightEar = {
+  x: 0,
+  y: 0
+}
 
 
 /**
@@ -67,10 +74,11 @@ const update = () => {
  */
 const computeHead = (pose) => {
   const nose = MoveNet.Coco.getKeypoint(pose, `nose`);
-  const leftEar = MoveNet.Coco.getKeypoint(pose, `left_ear`);
-  const rightEar = MoveNet.Coco.getKeypoint(pose, `right_ear`);
+  leftEar = MoveNet.Coco.getKeypoint(pose, `left_ear`);
+  rightEar = MoveNet.Coco.getKeypoint(pose, `right_ear`);
   const earDistance = Points.distance(leftEar, rightEar);
   const radius = earDistance / 2;
+  console.log("HAHAHAH" + leftEar)
   return {
     x: nose.x,
     y: nose.y,
@@ -92,6 +100,7 @@ const draw = () => {
   // Draw each head
   for (const head of heads) {
     drawHead(context, head);
+    drawHead2(context, head)
   }
 };
 
@@ -105,7 +114,7 @@ const drawHead = (context, head) => {
   const { scaleBy } = state;
   const { poses } = settings;
 
-  const headAbs = Points.multiplyScalar(head, scaleBy);
+  const headAbs = Points.multiplyScalar(leftEar, scaleBy);
   const radius = head.radius * scaleBy;
   const tracker = poses.getByPoseId(head.poseId);
   if (tracker === undefined) return;
@@ -129,6 +138,33 @@ const drawHead = (context, head) => {
   context.restore();
 };
 
+const drawHead2 = (context, head) => {
+  const { scaleBy } = state;
+  const { poses } = settings;
+
+  const headAbs = Points.multiplyScalar(rightEar, scaleBy);
+  const radius = head.radius * scaleBy;
+  const tracker = poses.getByPoseId(head.poseId);
+  if (tracker === undefined) return;
+  const hue = tracker.hue;
+
+  // Translate canvas so 0,0 is the center of head
+  context.save();
+  context.translate(headAbs.x, headAbs.y);
+
+  // Draw a circle
+  context.beginPath();
+  context.fillStyle = `hsl(${hue},60%,70%)`;
+  context.arc(0, 0, radius, 0, Math.PI * 2);
+  context.fill();
+
+  // Draw id of head
+  context.fillStyle = `black`;
+  context.fillText(head.poseId.toString(), 0, 0);
+
+  // Undo translation
+  context.restore();
+};
 
 /**
  * Called when a new pose is detecteda
