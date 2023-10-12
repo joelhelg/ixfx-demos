@@ -89,7 +89,7 @@ const computeHead = (pose) => {
   const leftWrist = MoveNet.Coco.getKeypoint(pose, `left_wrist`);
   const rightWrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
 
-  console.log("HAHAHAH" + leftEar)
+  //console.log("HAHAHAH" + leftEar)
   return {
     x: leftWrist.x,
     y: leftWrist.y,
@@ -106,7 +106,7 @@ const computeHead2 = (pose) => {
   const radius = earDistance / 2;
   const rightWrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
 
-  console.log("HAHAHAH" + leftEar)
+  //console.log("HAHAHAH" + leftEar)
   return {
     x: rightWrist.x,
     y: rightWrist.y,
@@ -215,6 +215,8 @@ const drawHead2 = (context, head2) => {
 const onPoseAdded = (event) => {
   const poseTracker = /** @type MoveNet.PoseTracker */(event.detail);
   console.log(`Pose added: ${poseTracker.guid}`);
+  console.log(poseTracker.last.keypoints);
+  
 };
 
 /**
