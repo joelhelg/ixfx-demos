@@ -3,7 +3,6 @@ import { Remote } from "https://unpkg.com/@clinth/remote@latest/dist/index.mjs";
 import * as Dom from '../../../ixfx/dom.js';
 import { Points } from '../../../ixfx/geometry.js';
 import * as MoveNet from "../Poses.js";
-import { getKeypoint } from "../../lib/Coco.js";
 
 const settings = Object.freeze({
   // How quickly to call update()
@@ -27,7 +26,6 @@ const settings = Object.freeze({
  * bounds: { width: number, height: number, center: Points.Point }
  * scaleBy: number
  * heads: Array<Head>
- * heads2: Array<Head>
  * }>} State
  */
 
@@ -38,8 +36,7 @@ let state = Object.freeze({
     center: { x: 0, y: 0 },
   },
   scaleBy: 1,
-  heads: [],
-  heads2: []
+  heads: []
 });
 
 /**
@@ -53,67 +50,50 @@ const update = () => {
   const heads = [];
   for (const pose of poses.getRawPoses()) {
     const head = computeHead(pose);
+    const head2 = computeHead2(pose);
     heads.push(head);
   }
-  const heads2 = [];
-  for (const pose of poses.getRawPoses()) {
-    const head2 = computeHead2(pose);
-    heads2.push(head2);
-  }
-
-  saveState({ heads, heads2});
-
+  saveState({ heads });
 };
-
-// let leftWrist = {
-//   x: 0,
-//   y: 0
-// }
-// let rightWrist = {
-//   x: 0,
-//   y: 0
-// }
-
 
 /**
  * Returns a circle based on a few head keypoints
  * @param {MoveNet.Pose} pose
  * @return {Head} 
  */
+
+let angle = 0;
+
 const computeHead = (pose) => {
   const nose = MoveNet.Coco.getKeypoint(pose, `nose`);
   const leftEar = MoveNet.Coco.getKeypoint(pose, `left_ear`);
   const rightEar = MoveNet.Coco.getKeypoint(pose, `right_ear`);
-  const earDistance = Points.distance(leftEar, rightEar);
-  const radius = earDistance / 2;
+  const rightwrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
   const leftWrist = MoveNet.Coco.getKeypoint(pose, `left_wrist`);
-  const rightWrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
-
-  console.log("HAHAHAH" + leftEar)
+  const leftAnkle = MoveNet.Coco.getKeypoint(pose, `left_ankle`);
+  const rightShoulder = MoveNet.Coco.getKeypoint(pose, `right_shoulder`);
+  const leftShoulder = MoveNet.Coco.getKeypoint(pose, `left_shoulder`);
+  const earDistance = Points.distance(leftEar, rightEar);
+  const wristDistance = Points.distance(leftWrist, rightwrist);
+  angle = Points.angle(rightShoulder, rightwrist);
+  console.log(MoveNet.Coco.getKeypoint);
+  const radius = wristDistance / 2;
   return {
     x: leftWrist.x,
     y: leftWrist.y,
     radius,
-    poseId: (pose.id ?? 0).toString(),
+    poseId: (pose.id ?? 0).toString()
   };
 };
 
 const computeHead2 = (pose) => {
-  const nose = MoveNet.Coco.getKeypoint(pose, `nose`);
-  const leftEar = MoveNet.Coco.getKeypoint(pose, `left_ear`);
-  const rightEar = MoveNet.Coco.getKeypoint(pose, `right_ear`);
-  const earDistance = Points.distance(leftEar, rightEar);
-  const radius = earDistance / 2;
-  const rightWrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
-
-  console.log("HAHAHAH" + leftEar)
+  const rightwrist = MoveNet.Coco.getKeypoint(pose, `right_wrist`);
   return {
-    x: rightWrist.x,
-    y: rightWrist.y,
-    radius,
-    poseId: (pose.id ?? 0).toString(),
+    x: rightwrist.x,
+    y: rightwrist.y,
   };
 };
+
 
 const draw = () => {
   const { width, height } = state.bounds;
@@ -127,50 +107,37 @@ const draw = () => {
 
   // Draw each head
   for (const head of heads) {
-    drawHead(context, head)  }
-};
-
-
-const draw2 = () => {
-  const { width, height } = state.bounds;
-  const { heads2 } = state;
-  const context = settings.canvasEl.getContext(`2d`);
-  if (!context) return;
-
-  // Fade out the canvas
-  context.fillStyle = `rgba(0,0,0,0.015)`;
-  context.fillRect(0, 0, width, height);
-
-  // Draw each head
-  for (const head2 of heads2) {
-    drawHead2(context, head2)
+    drawHead(context, head);
   }
 };
 
 /**
  * Draws a single head
- * @param {CanvasRenderingContext2D} context 
- * @param {Head} head 
+ * @param {CanvasRenderingContext2D} context
+ * @param {Head} head
  */
 const drawHead = (context, head) => {
   const { scaleBy } = state;
   const { poses } = settings;
-
+  const pose = computeHead;
   const headAbs = Points.multiplyScalar(head, scaleBy);
+  const headAbs2 = Points.multiplyScalar(head, scaleBy);
+
   const radius = head.radius * scaleBy;
   const tracker = poses.getByPoseId(head.poseId);
   if (tracker === undefined) return;
   const hue = tracker.hue;
-
   // Translate canvas so 0,0 is the center of head
   context.save();
   context.translate(headAbs.x, headAbs.y);
 
-  // Draw a circle
+  // Draw a circle for the head
   context.beginPath();
   context.fillStyle = `hsl(${hue},60%,70%)`;
   context.arc(0, 0, radius, 0, Math.PI * 2);
   context.fill();
+
+
 
   // Draw id of head
   context.fillStyle = `black`;
@@ -180,33 +147,8 @@ const drawHead = (context, head) => {
   context.restore();
 };
 
-const drawHead2 = (context, head2) => {
-  const { scaleBy } = state;
-  const { poses } = settings;
 
-  const headAbs = Points.multiplyScalar(head2, scaleBy);
-  const radius = head2.radius * scaleBy;
-  const tracker = poses.getByPoseId(head2.poseId);
-  if (tracker === undefined) return;
-  const hue = tracker.hue;
 
-  // Translate canvas so 0,0 is the center of head
-  context.save();
-  context.translate(headAbs.x, headAbs.y);
-
-  // Draw a circle
-  context.beginPath();
-  context.fillStyle = `hsl(${hue},60%,70%)`;
-  context.arc(0, 0, radius, 0, Math.PI * 2);
-  context.fill();
-
-  // Draw id of head
-  context.fillStyle = `black`;
-  context.fillText(head2.poseId.toString(), 0, 0);
-
-  // Undo translation
-  context.restore();
-};
 
 /**
  * Called when a new pose is detecteda
@@ -249,7 +191,7 @@ function setup() {
   remote.onData = onReceivedPoses;
   poses.events.addEventListener(`added`, onPoseAdded);
   poses.events.addEventListener(`expired`, onPoseExpired);
-  console.log(poses.events)
+
 
   Dom.fullSizeCanvas(`#canvas`, arguments_ => {
     // Update state with new size of canvas
@@ -269,7 +211,6 @@ function setup() {
   // Draw as fast as possible
   const animationLoop = () => {
     draw();
-    draw2();
     window.requestAnimationFrame(animationLoop);
   };
   animationLoop();
@@ -286,4 +227,5 @@ function saveState(s) {
     ...state,
     ...s
   });
-}
+};
+
