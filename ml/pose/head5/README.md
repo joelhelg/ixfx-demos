@@ -1,6 +1,7 @@
 # head
 
 This basic demo demonstrates:
+
 1. Receiving pose data of one or more bodies
 2. Deriving data from raw pose data
 3. Mapping to screen coordinates
