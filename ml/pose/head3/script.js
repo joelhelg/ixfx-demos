@@ -217,11 +217,11 @@ const drawHead2 = (context, head2) => {
 const onPoseAdded = (event) => {
   const poseTracker = /** @type MoveNet.PoseTracker */(event.detail);
   console.log(`Pose added: ${poseTracker.guid}`);
-
 };
 
-const poseDistance = (event, pose1, pose2) => {
+const poseDistance = (event) => {
   const poseTracker = /** @type MoveNet.PoseTracker */(event.detail);
+  console.log(`Pose added: ${poseTracker.guid}`);
   const nose = poseTracker.last.keypoints[0];
   console.log(nose);
   console.log(Points.distance(nose, nose));
