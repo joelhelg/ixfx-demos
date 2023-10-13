@@ -14,7 +14,8 @@ circleElement.style.height = "50px";
 circleElement.style.borderRadius = "50%";
 circleElement.style.backgroundColor = "blue";
 circleElement.style.position = "absolute";
-circleElement.style.transition = "all 1s ease-in-out";
+circleElement.style.animation = "myfirst 5s linear 2s infinite alternate";
+circleElement.style.transition = "all 10s ease-in-out";
 document.body.appendChild(circleElement);
 
 const circleElement1 = document.createElement("div1");
