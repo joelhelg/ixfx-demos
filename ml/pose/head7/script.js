@@ -69,7 +69,7 @@ const computeHead = (pose) => {
   };
 };
 
-let previousDistance = 0 ; // Stores the previous distance between two heads  
+let previousDistance = 0; // Stores the previous distance between two heads  
 
 const update = () => {
   const { poses } = settings;
@@ -100,7 +100,7 @@ const update = () => {
     previousDistance = distance; // Update the previous distance for the next frame
 
     console.log(speed)
-    
+
     // Update the previous distance for the next frame
     previousDistance = distance;
 
