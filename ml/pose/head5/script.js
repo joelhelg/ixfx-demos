@@ -13,8 +13,14 @@ circleElement.style.width = "50px";
 circleElement.style.height = "50px";
 circleElement.style.borderRadius = "50%";
 circleElement.style.backgroundColor = "red";
+circleElement.style.opacity = "0%";
 circleElement.style.position = "absolute";
 document.body.appendChild(circleElement);
+
+let distance = 0;
+
+const body = document.querySelector("body")
+
 
 const settings = Object.freeze({
   updateRateMs: 100,
@@ -54,11 +60,11 @@ const update = () => {
     const b = { x: heads[1].x, y: heads[1].y };
 
     // Calculates distance between point a and b
-    const distance = Points.distance(a, b); // Returns a number
+    distance = Points.distance(a, b); // Returns a number
 
     console.log(distance)
 
-
+    body.style.backgroundColor = `rgb(255 ${distance * 255} ${(distance * 10)})`
     circleElement.style.left = `${xCenter * 100}vw`;
     circleElement.style.top = `${yCenter * 100}vh`;
   }
