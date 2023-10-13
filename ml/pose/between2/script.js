@@ -36,7 +36,7 @@ const update = () => {
   // Calculate middle of each pose
   const middles = [];
   for (const p of poses.get()) {
-    const middle = MoveNet.Coco.getKeypoint(,)
+    const middle = MoveNet.Coco.getKeypoint(pose,`right_wrist`)
     if (middle === undefined) continue;
     middles.push({ id: p.guid, position: middle });
   }
