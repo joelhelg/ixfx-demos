@@ -8,9 +8,9 @@ import { frequencyTimer } from '../../../ixfx/flow.js';
 import { Oscillators } from '../../../ixfx/modulation.js';
 
 
+let distance = 0;
 
 const getKeypoint = MoveNet.Coco.getKeypoint;
-const box = document.getElementById('box');
 
 // Create a circle element
 const circleElement = document.createElement("div");
@@ -23,6 +23,7 @@ circleElement.style.transition = "1s ease-in-out";
 circleElement.style.left = "50%";
 circleElement.style.top = "50%";
 circleElement.style.alignItems = "center";
+circleElement.style.transition = "all 1s ease-in-out";
 document.body.appendChild(circleElement);
 
 
@@ -46,12 +47,12 @@ circleElement2.style.position = "absolute";
 document.body.appendChild(circleElement2);
 
 
-
 const settings = Object.freeze({
-  osc: Oscillators.sine(frequencyTimer(0.5)),
   updateRateMs: 100,
   remote: new Remote(),
   poses: new MoveNet.PosesTracker({ maxAgeMs: 500 }),
+
+
 });
 
 let state = Object.freeze({
@@ -63,7 +64,8 @@ let state = Object.freeze({
     center: { x: 0, y: 0 },
   },
   scaleBy: 1,
-  heads: []
+  heads: [],
+  osc: Oscillators.sine(frequencyTimer(0.1)),
 });
 
 const computeHead = (pose) => {
@@ -86,7 +88,8 @@ let previousDistance = 0; // Stores the previous distance between two heads
 
 const update = () => {
   const { poses } = settings;
-  const { osc } = settings;
+  const { osc } = state;
+
 
   let oscVal = osc.next().value;
   const heads = [];
@@ -106,22 +109,24 @@ const update = () => {
 
     const a = { x: heads[0].x, y: heads[0].y };
     const b = { x: heads[1].x, y: heads[1].y };
-
-
+    //update the ocilator frequency
+    // osc.frequency = (a.x * 100);
     // Calculates distance between point a and b
-    const distance = Points.distance(a, b); // Returns a numbers
+    distance = Points.distance(a, b); // Returns a numbers
     // calculate the speec between two heads
     const speed = Math.abs(((distance - previousDistance) * 100) * 5);
 
     previousDistance = distance; // Update the previous distance for the next frame
 
-
+    //calculate the speed of the a and b points
+    const aSpeed = Math.abs(((a.x - previousDistance) * 100) * 5);
+    const bSpeed = Math.abs(((b.x - previousDistance) * 100) * 5);
 
     // Update the previous distance for the next frame
     previousDistance = distance;
-    const Value = ((oscVal * 100));
+    const Value = ((oscVal) * distance);
 
-    console.log(speed);
+    console.log(Value);
     //circleElement.style.left = `${xCenter * 100}vw`;
     //circleElement.style.top = `${yCenter * 100}vh`;
     // make the circle element follow the oscilator
