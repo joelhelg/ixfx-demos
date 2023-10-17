@@ -6,8 +6,15 @@ import * as Dom from '../../../ixfx/dom.js';
 import { Points } from '../../../ixfx/geometry.js';
 import * as MoveNet from "../Poses.js";
 
+var audio = new Audio('kikki.mp3');
 
-var audio = new Audio('rainstorm.mp3');
+
+
+document.addEventListener('click', function () {
+  audio.play()
+});
+
+
 
 const getKeypoint = MoveNet.Coco.getKeypoint;
 const box = document.getElementById('box');
@@ -78,6 +85,7 @@ let previousDistanceX = 0; // Stores the previous distance between two heads
 let previousDistanceY = 0; // Stores the previous distance between two heads
 let speed = Math.abs(1);
 let speedX = Math.abs(1);
+let actualSpeed = Math.abs(1);
 
 const update = () => {
   const { poses } = settings;
@@ -97,6 +105,9 @@ const update = () => {
     const yDistance = heads[0].y - heads[1].y;
     const xDistance = heads[0].x - heads[1].x;
 
+
+
+
     /*  const ax = heads[0].x
         const ay = heads[0].y
         const bx = heads[1].x
@@ -105,15 +116,22 @@ const update = () => {
     const a = { x: heads[0].x, y: heads[0].y };
     const b = { x: heads[1].x, y: heads[1].y };
 
-    audio.pause();
+
 
 
     // Calculates distance between point a and b
     const distance = Points.distance(a, b); // Returns a number
     speed += Math.abs(yDistance - previousDistanceY);
     speedX += Math.abs(xDistance - previousDistanceX);
+    actualSpeed = Math.abs(yDistance - previousDistanceY);
+
     previousDistanceY = yDistance; // Update the previous distance for the next frame
     previousDistanceX = xDistance; // Update the previous distance for the next frame
+
+
+    audio.playbackRate = (distance * 1) + 0.5;
+
+
 
     // Update the previous distance for the next frame
 
@@ -160,10 +178,18 @@ function setup() {
 
   const updateLoop = () => {
     if (speed > 0) {
+      console.log(speed);
       speed = speed - 0.03
+
     }
     if (speedX > 0) {
       speedX = speedX - 0.03
+    }
+    if (actualSpeed > 0.05) {
+      audio.play()
+    }
+    if (actualSpeed <= 0.05) {
+      audio.pause()
     }
 
     update();
@@ -179,3 +205,4 @@ function saveState(s) {
     ...s
   });
 }
+
