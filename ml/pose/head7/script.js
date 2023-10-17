@@ -111,6 +111,7 @@ const update = () => {
 
     const a = { x: heads[0].x, y: heads[0].y };
     const b = { x: heads[1].x, y: heads[1].y };
+    
     //update the ocilator frequency
     // osc.frequency = (a.x * 100);
     // Calculates distance between point a and b
