@@ -6,14 +6,21 @@ import * as Dom from '../../../ixfx/dom.js';
 import { Points } from '../../../ixfx/geometry.js';
 import * as MoveNet from "../Poses.js";
 
-var audio = new Audio('kikki.mp3');
+var audio = new Audio('vitas.mp3');
 
+//const play = document.getElementById('play'); 
 
-
-document.addEventListener('click', function () {
-  audio.play()
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'g') {
+    audio.play();
+  }
 });
 
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'u') {
+    audio.pause();
+  }
+});
 
 
 const getKeypoint = MoveNet.Coco.getKeypoint;
@@ -24,7 +31,7 @@ const circleElement = document.createElement("div");
 circleElement.style.width = "50px";
 circleElement.style.height = "50px";
 circleElement.style.borderRadius = "50%";
-circleElement.style.backgroundColor = "blue";
+circleElement.style.backgroundColor = "purple";
 circleElement.style.position = "absolute";
 circleElement.style.transition = "all 10s ease-in-out";
 document.body.appendChild(circleElement);
@@ -123,13 +130,13 @@ const update = () => {
     const distance = Points.distance(a, b); // Returns a number
     speed += Math.abs(yDistance - previousDistanceY);
     speedX += Math.abs(xDistance - previousDistanceX);
-    actualSpeed = Math.abs(yDistance - previousDistanceY);
+    actualSpeed = Math.abs(xDistance - previousDistanceX);
 
     previousDistanceY = yDistance; // Update the previous distance for the next frame
     previousDistanceX = xDistance; // Update the previous distance for the next frame
 
 
-    audio.playbackRate = (distance * 1) + 0.5;
+    //audio.playbackRate = (distance * 1) + 0.5;
 
 
 
@@ -185,10 +192,10 @@ function setup() {
     if (speedX > 0) {
       speedX = speedX - 0.03
     }
-    if (actualSpeed > 0.05) {
+    if (actualSpeed > 0.005) {
       audio.play()
     }
-    if (actualSpeed <= 0.05) {
+    if (actualSpeed <= 0.005) {
       audio.pause()
     }
 
