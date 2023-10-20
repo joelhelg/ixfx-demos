@@ -1,5 +1,5 @@
-//calculate speed of bodys moving away and makes a ball move 
-
+// Change the background color of the page based on the speed on the x&y value. 
+// Also have a ball to highlight
 // @ts-ignore
 import { Remote } from "https://unpkg.com/@clinth/remote@latest/dist/index.mjs";
 import * as Dom from '../../../ixfx/dom.js';
