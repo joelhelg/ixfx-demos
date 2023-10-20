@@ -92,6 +92,10 @@ const computeHead = (pose) => {
   leftWrist = getKeypoint(pose, `left_wrist`);
   rightWrist = getKeypoint(pose, `right_wrist`);
   const earDistance = Points.distance(nose, rightEar);
+  const leftAnkle = getKeypoint(pose, `left_ankle`);
+  const rightAnkle = getKeypoint(pose, `right_ankle`);
+  const xDistance = Points.distance(leftAnkle, leftWrist);
+
   const radius = earDistance / 2;
   return {
     x: (rightHip.x + leftHip.x) / 2,
