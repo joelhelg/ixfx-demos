@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pose-head</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../base.css">
+</head>
+
+<body id="all">
+  <div id="circle-element"> </div>
+
+  <!-- <button id="play" onclick="audio.play();">Play</button>
+  <button id="pause" onclick="audio.pause();">Pause</button> -->
+
+  <script type="module">
+    document.querySelector(`#btnCloseFrame`)?.addEventListener(`click`, event => {
+      document.querySelector(`#sourceSection`)?.remove();
+      const element = event.target;
+      if (element) /** @type {HTMLElement} */(element).remove(); // Remove button too
+    });
+    document.querySelector(`#lnkNewWindow`)?.addEventListener(`click`, event => {
+      document.querySelector(`#sourceSection`)?.remove();
+    });
+  </script>
+  <!-- ----  -->
+
+  <!-- <h1>pose-head</h1> -->
+  <canvas id="canvas"></canvas>
+  <script type="module" src="script.js"></script>
+  </section>
+</body>
+
+</html>
