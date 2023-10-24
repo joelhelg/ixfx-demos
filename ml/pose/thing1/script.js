@@ -1,5 +1,4 @@
-// Change the background color of the page based on the speed on the x&y value. 
-// Also have a ball to highlight
+// Change the things speed depending on the distance between two heads
 // @ts-ignore
 import { Remote } from "https://unpkg.com/@clinth/remote@latest/dist/index.mjs";
 import * as Dom from '../../../ixfx/dom.js';
@@ -154,7 +153,7 @@ const update = () => {
 
     //circleElement.style.left = `${speed * 10}vw`;
     //circleElement.style.top = `${speedX * 10}vh`;
-    //circleElement.style.scale = `${speedX * 2} ${speed * 2} `;
+    circleElement.style.scale = `${speedX * 2} ${speed * 2} `;
     //circleElement.style.height = `${speedX * 100} vh`;
 
 
@@ -167,7 +166,7 @@ const update = () => {
     circleElement2.style.left = `${b.x * 100} vw`;
     circleElement2.style.top = `${b.y * 100} vh`;
 
-    background1.style.backgroundColor = `rgb(${255 - (speed * (Math.random() * 70))} ${255 - (speedX * (Math.random() * 70))} ${255 - (speedX * (Math.random() * 70))})`
+    //background1.style.backgroundColor = `rgb(${255 - (speed * (Math.random() * 70))} ${255 - (speedX * (Math.random() * 70))} ${255 - (speedX * (Math.random() * 70))})`
     //circleElement.style.backgroundColor = `rgb(${255 - (speedX * (Math.random() * 70))} ${255 - (speedX * (Math.random() * 70))} ${255 - (speed * (Math.random() * 70))})`
     console.log(speedX)
 
@@ -216,11 +215,11 @@ function setup() {
       speedX = speedX - 0.02
     }
 
-    if (speedX && speed > 0.00) {
+    if (speedX && speed > 0.0) {
       document.documentElement.style.setProperty('--speed', `10s`);
     } else {
-      document.documentElement.style.setProperty('--speed', `10000s`);
-      document.documentElement.style.('--speed', `10000s`);
+      document.documentElement.style.setProperty('--speed', `1000s`);
+      //document.documentElement.style.('--speed', `10000s`);
 
     }
 
