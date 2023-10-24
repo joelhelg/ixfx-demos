@@ -106,6 +106,7 @@ let previousDistanceX = 0; // Stores the previous distance between two heads
 let previousDistanceY = 0; // Stores the previous distance between two heads
 let speed = Math.abs(1);
 let speedX = Math.abs(1);
+let wobbleSpeed = Math.abs(1);
 let actualSpeed = Math.abs(1);
 
 
@@ -146,6 +147,7 @@ const update = () => {
     const distance = Points.distance(a, b); // Returns a number
     speed += Math.abs(yDistance - previousDistanceY);
     speedX += Math.abs(xDistance - previousDistanceX);
+    wobbleSpeed = Math.abs(xDistance - previousDistanceX);
     actualSpeed = Math.abs(xDistance - previousDistanceX);
 
     previousDistanceY = yDistance; // Update the previous distance for the next frame
@@ -191,7 +193,7 @@ body {
     top: calc(50% - (var(--size) * 0.49));
     left: calc(50% - (var(--size) * 0.49));
     overflow: visible;
-    border-radius: ${50 - (actualSpeed * 101)}% ${50 + (actualSpeed * 141)}% ${50 + (actualSpeed * 80)}% ${50 - (actualSpeed * 100)}% / ${50 - (actualSpeed * 80)}% ${50 + (actualSpeed * 90)}% ${50 + (actualSpeed * 100)}% ${50 - (actualSpeed * 120)}%;
+    border-radius: ${50 - (wobbleSpeed * 101)}% ${50 + (wobbleSpeed * 141)}% ${50 + (wobbleSpeed * 80)}% ${50 - (wobbleSpeed * 100)}% / ${50 - (wobbleSpeed * 80)}% ${50 + (wobbleSpeed * 90)}% ${50 + (wobbleSpeed * 100)}% ${50 - (wobbleSpeed * 120)}%;
     animation: rotate var(--speed) infinite linear;
     z-index: 1;
     scale: 1 1;
@@ -212,7 +214,7 @@ body {
     height: calc(100% - (var(--size) * 0.3));
     background: hsl(212, 100%, 51%);
     border: calc(var(--size) * 0.065) solid hsl(212, 100%, 61%);
-    border-radius: ${50 - (actualSpeed * 141)}% ${50 + (actualSpeed * 121)}% ${50 + (actualSpeed * 80)}% ${50 - (actualSpeed * 90)}% / ${50 - (actualSpeed * 100)}% ${50 + (actualSpeed * 90)}% ${50 + (actualSpeed * 140)}% ${50 - (actualSpeed * 110)}%;
+    border-radius: ${50 - (wobbleSpeed * 141)}% ${50 + (wobbleSpeed * 121)}% ${50 + (wobbleSpeed * 80)}% ${50 - (wobbleSpeed * 90)}% / ${50 - (wobbleSpeed * 100)}% ${50 + (wobbleSpeed * 90)}% ${50 + (wobbleSpeed * 140)}% ${50 - (wobbleSpeed * 110)}%;
     z-index: -2;
     animation: rotateBefore var(--speed) infinite linear;
 }
@@ -232,7 +234,7 @@ body {
     height: calc(100% - (var(--size) * 0.5));
     background: hsl(212, 100%, 31%);
     border: calc(var(--size) * 0.05) solid hsl(212, 100%, 41%);
-    border-radius: ${50 - (actualSpeed * 121)}% ${50 + (actualSpeed * 111)}% ${50 + (actualSpeed * 100)}% ${50 - (actualSpeed * 75)}% / ${50 - (actualSpeed * 150)}% ${50 + (actualSpeed * 80)}% ${50 + (actualSpeed * 110)}% ${50 - (actualSpeed * 90)}%;
+    border-radius: ${50 - (wobbleSpeed * 121)}% ${50 + (wobbleSpeed * 111)}% ${50 + (wobbleSpeed * 100)}% ${50 - (wobbleSpeed * 75)}% / ${50 - (wobbleSpeed * 150)}% ${50 + (wobbleSpeed * 80)}% ${50 + (wobbleSpeed * 110)}% ${50 - (wobbleSpeed * 90)}%;
     animation: rotateAfter var(--speed) infinite linear;
 }
 
@@ -309,11 +311,11 @@ function setup() {
   const updateLoop = () => {
     if (speed > 0.01) {
       //console.log(speed);
-      speed = speed - 0.02
+      speed = speed - 0.03
 
     }
     if (speedX > 0.01) {
-      speedX = speedX - 0.02
+      speedX = speedX - 0.03
     }
 
     if (speedX && speed > 0.0) {
