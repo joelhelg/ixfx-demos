@@ -78,7 +78,7 @@ body {
 }
 
 @keyframes rotateAfter {
-    0% {
+    0% { 
         transform: rotate(2turn);
     }
 }
