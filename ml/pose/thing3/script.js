@@ -154,9 +154,9 @@ const update = () => {
     actualSpeedY = Math.abs(yDistance - previousDistanceY);
 
     if (actualSpeed > 0.03 && actualSpeedY > 0.03) {
-      if (wobbleSpeed < 0.10) {
+      if (spedometer < 1) {
         spedometer += 0.03
-        wobbleSpeed = spedometer / 10
+        wobbleSpeed = spedometer
       }
 
       //wobbleSpeed = Math.abs(1 - ((actualSpeed + actualSpeedY) * 10)) / 50;
@@ -164,7 +164,7 @@ const update = () => {
     } else {
       if (spedometer > 0.009) {
         spedometer -= 0.009
-        wobbleSpeed = spedometer / 10
+        wobbleSpeed = spedometer
       }
     }
     console.log(wobbleSpeed)
@@ -213,7 +213,7 @@ body {
     top: calc(50% - (var(--size) * 0.49));
     left: calc(50% - (var(--size) * 0.49));
     overflow: visible;
-    border-radius: ${50 - (wobbleSpeed * 101)}% ${50 + (wobbleSpeed * 141)}% ${50 + (wobbleSpeed * 80)}% ${50 - (wobbleSpeed * 100)}% / ${50 - (wobbleSpeed * 80)}% ${50 + (wobbleSpeed * 90)}% ${50 + (wobbleSpeed * 100)}% ${50 - (wobbleSpeed * 120)}%;
+    border-radius: ${50 - (wobbleSpeed * 2)}% ${50 - (wobbleSpeed * 10)}% ${50 + (wobbleSpeed * 12)}% ${50 - (wobbleSpeed * 13)}% / ${50 + (wobbleSpeed * 11)}% ${50 - (wobbleSpeed * 1)}% ${50 + (wobbleSpeed * 14)}% ${50 - (wobbleSpeed * 7)}%;
     animation: rotate var(--speed) infinite linear;
     z-index: 1;
     scale: 1 1;
@@ -234,7 +234,7 @@ body {
     height: calc(100% - (var(--size) * 0.3));
     background: hsl(212, 100%, 51%);
     border: calc(var(--size) * 0.065) solid hsl(212, 100%, 61%);
-    border-radius: ${50 - (wobbleSpeed * 141)}% ${50 + (wobbleSpeed * 121)}% ${50 + (wobbleSpeed * 80)}% ${50 - (wobbleSpeed * 90)}% / ${50 - (wobbleSpeed * 100)}% ${50 + (wobbleSpeed * 90)}% ${50 + (wobbleSpeed * 140)}% ${50 - (wobbleSpeed * 110)}%;
+    border-radius: ${50 - (wobbleSpeed * 9)}% ${50 - (wobbleSpeed * 10)}% ${50 + (wobbleSpeed * 0)}% ${50 + (wobbleSpeed * 5)}% / ${50 - (wobbleSpeed * 1)}% ${50 + (wobbleSpeed * 2)}% ${50 + (wobbleSpeed * 1)}% ${50 - (wobbleSpeed * 7)}%;
     z-index: -2;
     animation: rotateBefore var(--speed) infinite linear;
 }
@@ -254,7 +254,7 @@ body {
     height: calc(100% - (var(--size) * 0.5));
     background: hsl(212, 100%, 31%);
     border: calc(var(--size) * 0.05) solid hsl(212, 100%, 41%);
-    border-radius: ${50 - (wobbleSpeed * 121)}% ${50 + (wobbleSpeed * 111)}% ${50 + (wobbleSpeed * 100)}% ${50 - (wobbleSpeed * 75)}% / ${50 - (wobbleSpeed * 150)}% ${50 + (wobbleSpeed * 80)}% ${50 + (wobbleSpeed * 110)}% ${50 - (wobbleSpeed * 90)}%;
+    border-radius: ${50 - (wobbleSpeed * 8)}% ${50 + (wobbleSpeed * 13)}% ${50 + (wobbleSpeed * 1)}% ${50 + (wobbleSpeed * 10)}% / ${50 - (wobbleSpeed * 3)}% ${50 + (wobbleSpeed * 12)}% ${50 - (wobbleSpeed * 8)}% ${50 + (wobbleSpeed * 2)}%;
     animation: rotateAfter var(--speed) infinite linear;
 }
 
